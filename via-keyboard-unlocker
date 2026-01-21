@@ -1,0 +1,53 @@
+#!/bin/sh
+
+#colours
+default='\e[39;0m'
+red='\e[31;1m'
+green='\e[32;1m'
+yellow='\e[33;1m'
+blue='\e[34;1m'
+
+listInitial=$(ls -1 /dev)
+listUnplugged="$listInitial"
+
+echo Unplug your keyboard…
+while [ "$listInitial" == "$listUnplugged" ]; do
+	sleep 1
+	listUnplugged=$(ls -1 /dev)
+done
+
+listPlugged="$listUnplugged"
+
+sleep 1
+
+echo Plug your keyboard back in…
+while [ "$listPlugged" == "$listUnplugged" ]; do
+	sleep 1
+	listPlugged=$(ls -1 /dev)
+done
+
+deviceIds=$(diff <(echo "$listUnplugged" ) <(echo "$listPlugged" ) | grep '>' | sed 's/> /\/dev\//g')
+
+echo -e ${blue}Detected device IDs:${default} $deviceIds
+
+if [ -z "$deviceIds" ]; then
+	echo -e ${red}ERROR: No devices found. This could be a timing error – please try again.${default}
+	exit 1
+fi
+
+sleep 0.5
+echo Unlocking keyboard access.
+sudo chmod a+rw $deviceIds || { echo -e ${red}ERROR: Access denied – the keyboard remains locked.${default}; exit 1; }
+
+echo -e ${green}The keyboard has been unlocked.${default}
+sleep 0.5
+
+response=""
+until [[ "$response" =~ ^(done|d)$ ]]; do
+	read -r -p "Once you have finished configuration, type ‘done’ to re-lock your keyboard: " response
+	response=${response,,}
+done
+
+sudo chmod 600 $deviceIds || { echo -e ${red}ERROR: Access denied – the keyboard remains unlocked.${default}; sleep 0.5; echo To manually try again, use the following command: sudo chmod 600 $deviceIds ; exit 1; }
+
+echo -e ${green}The keyboard has been re-locked.${default}
