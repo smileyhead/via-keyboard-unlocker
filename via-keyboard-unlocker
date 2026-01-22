@@ -35,7 +35,14 @@ if [ -z "$deviceIds" ]; then
 	exit 1
 fi
 
-sleep 0.5
+response=""
+read -r -p "Would you like the script to modify these files? [y/N] " response
+	response=${response,,}
+if ! [[ "$response" =~ ^(yes|y)$ ]]; then
+	echo Operation cancelled.
+	exit 0;
+fi
+
 echo Unlocking keyboard access.
 sudo chmod a+rw $deviceIds || { echo -e ${red}ERROR: Access denied – the keyboard remains locked.${default}; exit 1; }
 

@@ -17,6 +17,6 @@ The script works by…
 
 By doing this, the script should be able to automatically figure the exact device ID(s) the system assigned the keyboard. After this, the script will change the file permissions to allow the VIA configuration tool to access the keyboard, while the script keeps waiting.
 
-Before any file modifications are made, the script displays its findings in the terminal, so that if something goes wrong, the user knows which files have been touched.
+Before any file modifications are made, the script displays its findings in the terminal and asks for confirmation to avoid modifying unwanted files.
 
 After configuration has concluded, the user may pass `done` (or just `d`) to the script to initiate the re-locking process.
