@@ -20,3 +20,17 @@ By doing this, the script should be able to automatically figure the exact devic
 Before any file modifications are made, the script displays its findings in the terminal and asks for confirmation to avoid modifying unwanted files.
 
 After configuration has concluded, the user may pass `done` (or just `d`) to the script to initiate the re-locking process.
+
+# Example output
+```
+$ ./keyboardEdit.sh 
+Unplug your keyboard…
+Plug your keyboard back in…
+Detected device IDs: /dev/hidraw10 /dev/hidraw4 /dev/hidraw5
+Would you like the script to modify these files? [y/N] y
+Unlocking keyboard access.
+[sudo] password for smileyhead: 
+The keyboard has been unlocked.
+Once you have finished configuration, type ‘done’ to re-lock your keyboard: done
+The keyboard has been re-locked.
+```
