@@ -21,7 +21,7 @@ Before any file modifications are made, the script displays its findings in the 
 
 After configuration has concluded, the user may pass `done` (or just `d`) to the script to initiate the re-locking process.
 
-# Example output
+# Example Output
 ```
 $ ./keyboardEdit.sh 
 Unplug your keyboard…
